@@ -1,0 +1,89 @@
+<% layout('/layouts/boilerplate') -%>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="mb-4">Create a new listing</h1>
+        <form method="POST" action="/listings" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" id="title" name="listing[title]" placeholder="Enter a title" type="text" minlength="3" maxlength="100" autocomplete="off" required>
+                <div class="invalid-feedback">Title must be between 3 and 100 characters.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" id="description" name="listing[description]" placeholder="Describe the listing" rows="4" minlength="10" maxlength="2000" required></textarea>
+                <div class="invalid-feedback">Description must be between 10 and 2,000 characters.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image-url">Image URL</label>
+                <input class="form-control" id="image-url" name="listing[image][url]" placeholder="https://example.com/image.jpg" type="url" maxlength="2048" inputmode="url" autocomplete="url" required>
+                <div class="invalid-feedback">Enter a valid image URL, including http:// or https://.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Price per night</label>
+                <input class="form-control" id="price" name="listing[price]" placeholder="Enter price" type="number" min="0" max="100000000" step="0.01" inputmode="decimal" required>
+                <div class="invalid-feedback">Enter a price from 0 to 100,000,000 with up to 2 decimal places.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="country">Country</label>
+                <input class="form-control" id="country" name="listing[country]" placeholder="Enter country" type="text" minlength="2" maxlength="100" autocomplete="country-name" required>
+                <div class="invalid-feedback">Country must be between 2 and 100 characters.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" id="location" name="listing[location]" placeholder="Enter location" type="text" minlength="2" maxlength="100" autocomplete="address-level2" required>
+                <div class="invalid-feedback">Location must be between 2 and 100 characters.</div>
+            </div>
+            <button class="btn btn-primary" type="submit">Add listing</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    (() => {
+        const form = document.querySelector(".needs-validation");
+        const textFields = form.querySelectorAll('input[type="text"], textarea');
+        const imageUrl = form.querySelector("#image-url");
+
+        const validateTrimmedValue = (field) => {
+            field.setCustomValidity(field.value.trim() ? "" : "This field cannot be empty.");
+        };
+
+        textFields.forEach((field) => {
+            field.addEventListener("input", () => validateTrimmedValue(field));
+            field.addEventListener("blur", () => {
+                field.value = field.value.trim();
+                validateTrimmedValue(field);
+            });
+        });
+
+        const validateImageUrl = () => {
+            if (!imageUrl.value) {
+                imageUrl.setCustomValidity("");
+                return;
+            }
+
+            try {
+                const url = new URL(imageUrl.value);
+                imageUrl.setCustomValidity(["http:", "https:"].includes(url.protocol) ? "" : "Use an HTTP or HTTPS URL.");
+            } catch {
+                imageUrl.setCustomValidity("Enter a valid image URL.");
+            }
+        };
+
+        imageUrl.addEventListener("input", validateImageUrl);
+        imageUrl.addEventListener("blur", validateImageUrl);
+
+        form.addEventListener("submit", (event) => {
+            textFields.forEach(validateTrimmedValue);
+            validateImageUrl();
+
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add("was-validated");
+        });
+    })();
+</script>

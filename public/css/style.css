@@ -1,0 +1,83 @@
+body {
+    min-height: 100vh;
+}
+
+.navbar {
+    height: 5rem;
+    background: #fff;
+}
+
+.navbar-brand {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: #222222 !important;
+}
+
+
+.f-info {
+    min-height: 6rem;
+    padding: 1.25rem 2rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #495057;
+    text-align: center;
+}
+
+.f-info-socials,
+.f-info-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.f-info-socials a,
+.f-info-links a {
+    color: #495057;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.f-info-socials a {
+    font-size: 1.2rem;
+}
+
+.f-info-socials a:hover,
+.f-info-links a:hover {
+    color: #fe424d;
+}
+
+@media (max-width: 576px) {
+    .f-info {
+        flex-direction: column;
+        justify-content: center;
+        padding: 1.25rem 1rem;
+    }
+}
+
+.listing-card-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.listing-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 12%);
+}
+
+.listing-card .card-img-top {
+    height: 14rem;
+    object-fit: cover;
+}
